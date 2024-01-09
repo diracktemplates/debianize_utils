@@ -2,7 +2,8 @@
 
 PACKAGENAME=sayhello
 VERSION=0.1.0
-BIN=../sayhello
+BIN=./sayhello
+MANUALS=
 
 DESCRIPTION=
 
@@ -23,11 +24,30 @@ mkdir -p ${PACKAGENAME}_${VERSION}_all/DEBIAN
 
 echo "$CONTROL" > ${PACKAGENAME}_${VERSION}_all/DEBIAN/control
 
-mkdir -p ${PACKAGENAME}_${VERSION}_all/usr/bin
-
 if [ -n "$BIN" ]
 then
-	cp ${BIN} ${PACKAGENAME}_${VERSION}_all/usr/bin
+	if [ -f "$BIN" ]
+	then
+		mkdir -p ${PACKAGENAME}_${VERSION}_all/usr/bin
+		cp ${BIN} ${PACKAGENAME}_${VERSION}_all/usr/bin
+	else if [ -d "$BIN" ]
+	then
+		cp ${BIN} ${PACKAGENAME}_${VERSION}_all/usr/bin
+	fi
 fi
 
-# Build using the following command 'dpkg-deb -b ${PACKAGENAME}_${VERSION}_all'
+if [ -n "$MANUALS" ]
+then
+	if [ -f "$MANUALS" ]
+	then
+		mkdir -p ${PACKAGENAME}_${VERSION}_all/usr/share/man/man1
+		cp ${MANUALS} ${PACKAGENAME}_${VERSION}_all/usr/share/man/man1
+	else if [ -d "$MANUALS" ]
+	then
+		cp ${MANUALS} ${PACKAGENAME}_${VERSION}_all/usr/share/man/man1
+	fi
+fi
+
+
+# Build using the following command
+dpkg-deb -b ${PACKAGENAME}_${VERSION}_all
