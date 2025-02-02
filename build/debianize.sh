@@ -1,22 +1,29 @@
 #!/bin/bash
 
+# Script for building a debian package using DPKG
+
+# Set up the following variables based on your package
 PACKAGENAME=sayhello
 VERSION=0.1.0
-BIN=./sayhello
-MANUALS=
-
-DESCRIPTION=
+BIN=bin
+MANUALS="docs/man1"
+DESCRIPTION="My description"
+MANTAINER="Fulano <http://www.google.com>"
+ORIGINAL_MANTAINER=
+BUGS="<http://www.google.com>"
+HOMEPAGE="<http://www.google.com>"
+DEPENDS="bash"
 
 CONTROL="Package: ${PACKAGENAME:=mypackage}
 Version: ${VERSION:=0.1.0}
 Architecture: all
 Priority: optional
 Essential: no
-Maintainer: Rodolfo A C Neves (Dirack) <https://www.geofisicando.com>
-Original-Maintainer: GPGEOF <https://github.com/gpgeof>
-Bugs: https://github.com/Dirack/Shellinclude/issues
-Homepage: https://github.com/Dirack/Shellinclude/wiki
-Depends: bash
+Maintainer: ${MANTAINER:='Rodolfo A C Neves (Dirack) <https://www.geofisicando.com>'}
+Original-Maintainer: ${MANTAINER:='GPGEOF <https://github.com/gpgeof>'}
+Bugs: ${BUGS:='GPGEOF \<https://github.com/gpgeof\>'}
+Homepage: ${HOMEPAGE:='GPGEOF <https://github.com/gpgeof>'}
+Depends: ${DEPENDS:='bash'}
 Description: ${DESCRIPTION:=Just a test! :)}
 "
 
@@ -30,9 +37,10 @@ then
 	then
 		mkdir -p ${PACKAGENAME}_${VERSION}_all/usr/bin
 		cp ${BIN} ${PACKAGENAME}_${VERSION}_all/usr/bin
-	else if [ -d "$BIN" ]
+	elif [ -d "$BIN" ]
 	then
-		cp ${BIN} ${PACKAGENAME}_${VERSION}_all/usr/bin
+		mkdir -p ${PACKAGENAME}_${VERSION}_all/usr
+		cp ${BIN} ${PACKAGENAME}_${VERSION}_all/usr
 	fi
 fi
 
@@ -42,9 +50,10 @@ then
 	then
 		mkdir -p ${PACKAGENAME}_${VERSION}_all/usr/share/man/man1
 		cp ${MANUALS} ${PACKAGENAME}_${VERSION}_all/usr/share/man/man1
-	else if [ -d "$MANUALS" ]
+	elif [ -d "$MANUALS" ]
 	then
-		cp ${MANUALS} ${PACKAGENAME}_${VERSION}_all/usr/share/man/man1
+		mkdir -p ${PACKAGENAME}_${VERSION}_all/usr/share/man
+		cp -r ${MANUALS} ${PACKAGENAME}_${VERSION}_all/usr/share/man
 	fi
 fi
 
