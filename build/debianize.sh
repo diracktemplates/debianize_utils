@@ -31,30 +31,22 @@ mkdir -p ${PACKAGENAME}_${VERSION}_all/DEBIAN
 
 echo "$CONTROL" > ${PACKAGENAME}_${VERSION}_all/DEBIAN/control
 
-if [ -n "$BIN" ]
+if [ -d "$BIN" ]
 then
-	if [ -f "$BIN" ]
-	then
-		mkdir -p ${PACKAGENAME}_${VERSION}_all/usr/bin
-		cp ${BIN} ${PACKAGENAME}_${VERSION}_all/usr/bin
-	elif [ -d "$BIN" ]
-	then
-		mkdir -p ${PACKAGENAME}_${VERSION}_all/usr
-		cp ${BIN} ${PACKAGENAME}_${VERSION}_all/usr
-	fi
+	mkdir -p ${PACKAGENAME}_${VERSION}_all/usr
+	cp -r ${BIN} ${PACKAGENAME}_${VERSION}_all/usr
+else
+	echo "BIN variable is not setup or BIN directory not found!"
+	exit 1
 fi
 
-if [ -n "$MANUALS" ]
+if [ -d "$MANUALS" ]
 then
-	if [ -f "$MANUALS" ]
-	then
-		mkdir -p ${PACKAGENAME}_${VERSION}_all/usr/share/man/man1
-		cp ${MANUALS} ${PACKAGENAME}_${VERSION}_all/usr/share/man/man1
-	elif [ -d "$MANUALS" ]
-	then
-		mkdir -p ${PACKAGENAME}_${VERSION}_all/usr/share/man
-		cp -r ${MANUALS} ${PACKAGENAME}_${VERSION}_all/usr/share/man
-	fi
+	mkdir -p ${PACKAGENAME}_${VERSION}_all/usr/share/man
+	cp -r ${MANUALS} ${PACKAGENAME}_${VERSION}_all/usr/share/man
+else
+	echo "MANUALS variable is not setup or MANUALS directory not found!"
+	exit 1
 fi
 
 
