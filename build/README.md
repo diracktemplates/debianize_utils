@@ -1,3 +1,5 @@
-# Pasta para criação do pacote debian da bilbioteca utilizando debianize.sh
+# Scripts to build your debian package
 
-O Script 'debianize.sh' irá gerar o pacote debian dentro desta pasta de build
+## Quick Start
+
+Use 'debianize.sh' to build your debian package in a build directory
