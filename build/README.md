@@ -14,3 +14,21 @@ Variable MANUALS is the directory were your documentation is and 'debianize.sh' 
 
 After setup, run 'debianize.sh' script and your debian package will be generated in the current folder. You will be able to install it
 on your system using DPKG.
+
+To install the generated debian package use the following command:
+
+```
+sudo dpkg -i ./sayhello_0.1.0_all.deb
+```
+
+After installation, call the script as follows:
+
+```
+sayhello.sh
+```
+
+To remove the package with apt:
+
+```
+sudo apt remove sayhello
+```
